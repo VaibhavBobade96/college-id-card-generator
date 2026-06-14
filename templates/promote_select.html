@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel panel-centered" style="max-width:780px;">
+  <h2>Promote Students (Select)</h2>
+
+  <!-- Top filter form: class + year -->
+  <form method="get" class="upload-form"
+        style="margin-bottom:16px; display:flex; gap:8px; flex-wrap:wrap;">
+
+    <input type="text" name="from_class"
+           placeholder="From Class (e.g. FY B.Sc. Com Sci)"
+           value="{{ from_class }}" required>
+
+    <input type="text" name="from_year"
+           placeholder="From Year (e.g. 2024-25)"
+           value="{{ from_year }}" required>
+
+    <button type="submit" class="btn-primary">
+      Load Students
+    </button>
+  </form>
+
+  {% if students %}
+  <!-- Promote selected students -->
+  <form method="post" class="upload-form">
+
+    <input type="hidden" name="from_class" value="{{ from_class }}">
+    <input type="hidden" name="from_year" value="{{ from_year }}">
+
+    <div class="field-group">
+      <label>To Class</label>
+      <input type="text" name="to_class"
+             placeholder="SY B.Sc. Com Sci" required>
+    </div>
+
+    <div class="field-group">
+      <label>To Academic Year</label>
+      <input type="text" name="to_year"
+             placeholder="2025-26" required>
+    </div>
+
+    <p><strong>Select students to promote:</strong></p>
+
+    <div style="max-height:320px; overflow:auto; border:1px solid #ddd;
+                border-radius:6px; padding:8px;">
+      {% for s in students %}
+        <label style="display:flex; align-items:center; gap:8px;
+                      padding:4px 0; border-bottom:1px solid #f3f3f3;">
+          <input type="checkbox" name="student_ids"
+                 value="{{ s.id }}" checked>
+          <span>
+            {{ s.student_code }} – {{ s.full_name }}
+            ({{ s.class_name }}, {{ s.year_text }})
+          </span>
+        </label>
+      {% endfor %}
+    </div>
+
+    <div class="button-row" style="margin-top:12px;">
+      <button type="submit" class="btn-primary">
+        Promote Selected
+      </button>
+      <a href="{{ url_for('students_list') }}" class="btn-secondary">
+        Cancel
+      </a>
+    </div>
+  </form>
+  {% endif %}
+
+</section>
+
+{% endblock %}

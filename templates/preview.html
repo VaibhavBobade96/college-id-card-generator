@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel panel-centered">
+  <h2>Preview ID Cards</h2>
+  <p>Found {{ students|length }} students</p>
+
+  <div class="preview-grid">
+    {% for s in students %}
+      <div class="preview-card">
+        <div class="preview-photo">
+          {% if s.photo_path %}
+            <img src="{{ url_for('static', filename='uploads/photos/' + s.student_code + '.jpg') }}" alt="Photo">
+          {% else %}
+            <div class="photo-placeholder">No Photo</div>
+          {% endif %}
+        </div>
+        <div class="preview-info">
+          <h3>{{ s.full_name }}</h3>
+          <p>ID: {{ s.student_code }}</p>
+          <p>Course: {{ s.class_name }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <form method="post" action="{{ url_for('generate_cards') }}" class="generate-form">
+    <div class="field-group-inline">
+      <span>Output Format:</span>
+      <label><input type="radio" name="format" value="PNG" checked> PNG</label>
+      <label><input type="radio" name="format" value="PDF"> PDF</label>
+    </div>
+
+  <div class="preview-actions">
+  <a href="javascript:history.back()" class="btn btn-outline-light btn-sm">
+    ← Back
+  </a>
+
+  <button type="submit" class="btn btn-primary">
+    Generate...
+  </button>
+</div>
+  </form>
+</section>
+
+{% endblock %}

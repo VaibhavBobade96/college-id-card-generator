@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel panel-centered">
+  <h2>Add Student</h2>
+
+  {% if message %}
+    <p id="serverMessage" class="msg {{ 'error' if error else 'success' }}">{{ message }}</p>
+  {% endif %}
+
+  <form id="studentForm"
+        class="student-form"
+        method="post"
+        enctype="multipart/form-data"
+        novalidate>
+
+    <div class="form-grid">
+      <!-- LEFT COLUMN -->
+      <div class="form-col">
+        <div class="field-group">
+          <label for="student_code">Student Code (10 digits only)</label>
+          <input type="text" id="student_code" name="student_code"
+                 maxlength="10" placeholder="1032230132" required>
+          <small>Exactly 10 digits, numbers only. Photo filename will be &lt;code&gt;.jpg</small>
+        </div>
+
+        <div class="field-group">
+          <label for="full_name">Name (Last, First Middle)</label>
+          <input type="text" id="full_name" name="full_name"
+                 placeholder="Patil Vaibhav Sunil" required>
+        </div>
+
+        <div class="field-group">
+          <label for="address_line1">Address Line 1 (House / Area / Street)</label>
+          <input type="text" id="address_line1" name="address_line1"
+                 placeholder="House no., Street name, Area" required>
+        </div>
+
+        <div class="field-group">
+          <label for="address_line2">Address Line 2 (Village / City)</label>
+          <input type="text" id="address_line2" name="address_line2"
+                 placeholder="Village / Town / City">
+        </div>
+
+        <div class="field-group">
+          <label for="address_line3">Address Line 3 (District / State / PIN)</label>
+          <input type="text" id="address_line3" name="address_line3"
+                 placeholder="District, State, 431511">
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="form-col">
+        <div class="field-group">
+          <label for="class_name">Class (exactly as on ID Card)</label>
+          <input type="text" id="class_name" name="class_name"
+                 placeholder="Ty B.Sc. Comp. Sci." required>
+          <small>Eg: Fy B.Sc. Comp. Sci., Sy B.Sc. Comp. Sci., Ty B.Sc. Comp. Sci.</small>
+        </div>
+
+        <div class="field-group">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" name="dob" required>
+        </div>
+
+        <div class="field-group">
+          <label for="blood_group">Blood Group</label>
+          <select id="blood_group" name="blood_group" required>
+            <option value="">-- Select Blood Group --</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="contact_no">Contact (10 digits)</label>
+          <input type="tel" id="contact_no" name="contact_no"
+                 maxlength="10" placeholder="9876543210" required>
+          <small>Enter 10‑digit mobile number only.</small>
+        </div>
+
+        <div class="field-group">
+  <label for="year_text">Year</label>
+  <input type="text" id="year_text" name="year_text"
+         placeholder="2025-26" required>
+</div>
+
+<div class="field-group">
+  <label for="photo_file">Upload Photo (JPG)
+    <span class="text-muted small">(exact name as Student Code)</span>
+  </label>
+
+  <div class="custom-file-row">
+    <input
+      type="file"
+      id="photo_file"
+      name="photo_file"
+      accept="image/jpeg,image/jpg"
+      class="custom-file-input">
+  </div>
+
+  <small class="help-text">
+    If not selected, system will use photo from ZIP by student code.
+  </small>
+</div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary main-submit">Save Student</button>
+      <a href="{{ url_for('index') }}"
+         class="btn-secondary main-submit btn-link-like">
+        Back
+      </a>
+    </div>
+  </form>
+</section>
+
+{% endblock %}

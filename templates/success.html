@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel panel-centered">
+  <h2 class="success-title">ID Cards Generated Successfully!</h2>
+  <p>Your ID cards have been created and are ready for download.</p>
+
+  <div class="button-row">
+    <a href="{{ url_for('download_batch', batch_id=batch_id) }}" class="btn-primary">
+      Download ID Cards
+    </a>
+    <a href="{{ url_for('index') }}" class="btn-secondary">
+      Generate More Cards
+    </a>
+  </div>
+</section>
+
+{% endblock %}

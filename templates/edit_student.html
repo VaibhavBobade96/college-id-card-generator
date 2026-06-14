@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel panel-centered" style="max-width:520px;">
+  <h2>Edit Student</h2>
+
+  <form method="post" class="upload-form">
+
+    <div class="field-group">
+      <label>Full Name</label>
+      <input type="text" name="full_name" value="{{ student.full_name }}" required>
+    </div>
+
+    <div class="field-group">
+      <label>Address line 1</label>
+      <input type="text" name="address_line1" value="{{ student.address_line1 }}" required>
+    </div>
+
+    <div class="field-group">
+      <label>Address line 2</label>
+      <input type="text" name="address_line2" value="{{ student.address_line2 }}">
+    </div>
+
+    <div class="field-group">
+      <label>Address line 3</label>
+      <input type="text" name="address_line3" value="{{ student.address_line3 }}">
+    </div>
+
+    <div class="field-group">
+      <label>Class</label>
+      <input type="text" name="class_name" value="{{ student.class_name }}" required>
+    </div>
+
+    <div class="field-group">
+      <label>DOB</label>
+      <input type="text" name="dob" value="{{ student.dob }}" required>
+    </div>
+
+    <div class="field-group">
+      <label>Blood group</label>
+      <input type="text" name="blood_group" value="{{ student.blood_group }}">
+    </div>
+
+    <div class="field-group">
+      <label>Contact</label>
+      <input type="text" name="contact_no" value="{{ student.contact_no }}" required>
+    </div>
+
+    <div class="field-group">
+      <label>Year</label>
+      <input type="text" name="year_text" value="{{ student.year_text }}" required>
+    </div>
+
+    <div class="button-row">
+      <button type="submit" class="btn-primary">
+        Save
+      </button>
+      <a href="{{ url_for('students_list') }}" class="btn-secondary">
+        Cancel
+      </a>
+    </div>
+
+  </form>
+</section>
+
+{% endblock %}

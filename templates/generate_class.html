@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel panel-centered" style="max-width:640px;">
+  <h2>Generate ID Cards (By Class)</h2>
+
+  <form method="post" class="upload-form">
+    <div class="field-group">
+      <label>Class</label>
+      <input type="text" name="class_name"
+             placeholder="e.g. SY B.Sc. Com Sci" required>
+    </div>
+
+    <div class="field-group">
+      <label>Academic Year</label>
+      <input type="text" name="year_text"
+             placeholder="e.g. 2025-26" required>
+    </div>
+
+    <div class="field-group">
+      <label>Output Format</label>
+      <select name="format" class="form-control">
+        <option value="PNG">PNG (ZIP)</option>
+        <option value="PDF">PDF</option>
+      </select>
+    </div>
+
+    <div class="button-row">
+      <button type="submit" class="btn-primary">Generate</button>
+      <a href="{{ url_for('index') }}" class="btn-secondary">Cancel</a>
+    </div>
+  </form>
+</section>
+
+{% endblock %}

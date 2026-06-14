@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel panel-centered">
+  <h2>Students by Year</h2>
+
+  <div class="students-header-row">
+    <p class="students-count">Found {{ students|length }} students</p>
+
+    <form method="get"
+          action="{{ url_for('students_by_year') }}"
+          style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+
+      <!-- Optional: back to full students page -->
+      <a href="{{ url_for('students_list') }}" class="btn-secondary btn-sm">
+        All students view
+      </a>
+
+      <!-- Year dropdown (FY / SY / TY) -->
+      <select name="year" class="year-select" onchange="this.form.submit()">
+        <option value="">All years</option>
+        <option value="FY" {% if selected_year=='FY' %}selected{% endif %}>FY</option>
+        <option value="SY" {% if selected_year=='SY' %}selected{% endif %}>SY</option>
+        <option value="TY" {% if selected_year=='TY' %}selected{% endif %}>TY</option>
+      </select>
+
+      <!-- Search: sirf name / ID -->
+      <input type="text"
+             name="q"
+             value="{{ q }}"
+             placeholder="Search by name or ID"
+             style="min-width:220px;">
+
+      <button type="submit" class="btn-primary btn-sm">
+        Search
+      </button>
+    </form>
+  </div>
+
+  <!-- STUDENTS GRID + DELETE SELECTED (same as students_list) -->
+  <form method="post" action="{{ url_for('delete_selected_students') }}">
+
+    <div class="preview-grid">
+      {% for s in students %}
+        <div class="preview-card">
+          <div class="preview-photo">
+            {% if s.photo_path %}
+              <img src="{{ url_for('static',
+                                   filename='uploads/photos/' + s.student_code + '.jpg') }}"
+                   alt="Photo">
+            {% else %}
+              <div class="photo-placeholder">No Photo</div>
+            {% endif %}
+          </div>
+
+          <div class="preview-info">
+
+            <!-- Name + delete checkbox -->
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <h3>{{ s.full_name }}</h3>
+              <input type="checkbox"
+                     name="student_ids"
+                     value="{{ s.id }}">
+            </div>
+
+            <p>ID: {{ s.student_code }}</p>
+            <p>Course: {{ s.class_name }}</p>
+            <p>Year: {{ s.year_text }}</p>
+
+            <div class="preview-actions">
+              <a href="{{ url_for('edit_student', student_id=s.id) }}"
+                 class="btn-secondary btn-sm edit-btn">
+                Edit
+              </a>
+
+              <!-- Single‑student ID generate -->
+              <a href="#"
+                 class="btn-secondary btn-sm edit-btn"
+                 data-bs-toggle="modal"
+                 data-bs-target="#formatModal"
+                 data-student-id="{{ s.id }}">
+                Generate ID
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Delete Selected button -->
+    <div style="margin-top:16px; text-align:right;">
+      <button type="submit"
+              class="btn-danger btn-sm"
+              onclick="return confirm('Are you sure you want to delete selected students?');">
+        Delete Selected
+      </button>
+    </div>
+  </form>
+
+  <!-- Format select modal (for Generate ID) – same as students_list -->
+  <div class="modal fade" id="formatModal" tabindex="-1"
+       aria-labelledby="formatModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="formatModalLabel">Generate ID Card</h5>
+          <button type="button" class="btn-close"
+                  data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <p class="mb-2">Choose output format:</p>
+
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="radio"
+                   name="idFormat"
+                   id="formatPng"
+                   value="PNG"
+                   checked>
+            <label class="form-check-label" for="formatPng">
+              PNG (images ZIP)
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="radio"
+                   name="idFormat"
+                   id="formatPdf"
+                   value="PDF">
+            <label class="form-check-label" for="formatPdf">
+              PDF (single file)
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-outline-secondary btn-sm"
+                  data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <button type="button"
+                  class="btn btn-primary btn-sm"
+                  id="confirmGenerateBtn">
+            Generate
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endblock %}

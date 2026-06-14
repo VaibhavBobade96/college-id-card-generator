@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel panel-centered">
+  <h2>Generate ID Cards</h2>
+
+  {% if home_message %}
+    <p class="msg {{ 'error' if home_type == 'error' else 'success' }}">
+      {{ home_message }}
+    </p>
+  {% endif %}
+
+  <form class="upload-form"
+        method="post"
+        action="{{ url_for('process_files') }}"
+        enctype="multipart/form-data">
+
+    <div class="field-group">
+      <label for="csv_file">Upload CSV / Excel File:</label>
+      <input type="file" id="csv_file" name="csv_file" accept=".csv,.xlsx,.xls" required>
+      <small>Student details in CSV or Excel format.</small>
+    </div>
+
+    <div class="field-group">
+      <label for="photos_zip">Upload Photos ZIP</label>
+      <input type="file" id="photos_zip" name="photos_zip" accept=".zip" required>
+      <small>Photos named as &lt;student_code&gt;.jpg inside ZIP.</small>
+    </div>
+
+    <div class="button-row">
+      <button class="btn-primary main-submit" type="submit">
+        Process Files
+      </button>
+
+      <button type="button"
+              id="deleteBtnHome"
+              class="btn-secondary main-submit">
+        Delete CSV Data 
+      </button>
+
+      <a href="{{ url_for('add_student') }}"
+         class="btn-primary main-submit btn-link-like">
+        Add Student
+      </a>
+
+      <a href="{{ url_for('students_list') }}"
+        class="btn-secondary main-submit btn-link-like">
+       View / Edit Students
+      </a>
+
+      <a href="{{ url_for('generate_class_cards') }}"
+       class="btn-primary main-submit">
+       Generate IDs (By Class)
+      </a>
+
+    </div>
+  </form>
+
+  <!-- Hidden delete form -->
+  <form id="deleteFormHome"
+        method="post"
+        action="{{ url_for('delete_all_students') }}"
+        style="display:none;"></form>
+</section>
+
+{% endblock %}
